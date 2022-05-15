@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,400;0,700;0,800;0,900;1,100;1,200;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
+  <title>Админ хяналтын самбар</title>
+</head>
+
+<body onload="startTime(); startDate();">
+
+  <div class="navbar">
+    <div class="brand">
+      <img class="agd" src="{% static 'images/AGD.jpg' %}" width="120" height="40" alt="">
+      <span class="fastfood-logo">Fastfood</span>
+    </div>
+    <div class="date">
+      <span id="datetime"></span>
+      <span id="day-month-year"></span>
+    </div>
+    <div class="tools">
+      <i class="calculator fa-solid fa-calculator"></i>
+      <i class="tasks fa-solid fa-boxes-stacked"></i>
+      <i class="logout fa-solid fa-arrow-right-from-bracket"></i>
+    </div>
+  </div>
+
+  <div class="main-body">
+    <div class="menu">
+      <div class="menu-navbar">
+        <button class="btn food-button">Хоол</button>
+        <button class="btn drink-button">Уух зүйлс</button>
+        <button class="btn salad-button">Салат</button>
+      </div>
+      <hr>
+      <div class="pictures">
+        <div class="slider-wrapper">
+          <div class="food-pictures">
+              {% for food in foods %}
+                  {% if food.food_type == 'food' %}
+                  <div class="picture-and-text" id="{{ food.id }}">
+                    <i class="fa fa-thin fa-bowl-food"></i>
+                    <p class="food-name"><strong>{{ food.name }}</strong></p>
+                    <p class="food-price">{{ food.price }}₮</p>
+                  </div>
+                  {% endif %}
+              {% endfor %}
+          </div>
+
+          <div class="drink-pictures">
+            {% for food in foods %}
+                {% if food.food_type == 'drink' %}
+                <div class="picture-and-text" id="{{ food.id }}">
+                    <img src="{% static 'images/tea.png' %}" height="40" width="40" alt="">
+                    <p class="food-name"><strong>{{ food.name }}</strong></p>
+                    <p class="food-price">{{ food.price }}₮</p>
+                </div>
+                {% endif %}
+              {% endfor %}
+          </div>
+
+          <div class="salad-pictures">
+            {% for food in foods %}
+                {% if food.food_type == 'salad' %}
+                <div class="picture-and-text" id="{{ food.id }}">
+                    <img src="{% static 'images/salad.png' %}" height="40" width="40" alt="">
+                    <p class="food-name"><strong>{{ food.name }}</strong></p>
+                    <p class="food-price">{{ food.price }}₮</p>
+                </div>
+                {% endif %}
+              {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="board">
+      <div class="quantity-board">
+        <table class="calculator-table">
+          <tr class="header-row">
+            <th>Нэр</th>
+            <th>Тоо хэмжээ</th>
+            <th>Үнэ</th>
+            <th>Нийт үнэ</th>
+          </tr>
+        </table>
+      </div>
+
+      <div class="sum-board">
+        <p class="sum-board-price"></p>
+        <div class="sum-board-buttons">
+          <button class="sum-board-button cancel-button">Цуцлах</button>
+          <button class="sum-board-button submit-button">Хэвлэх</button>
+            <input type="hidden" value="{{ csrf_token }}" class="csrf">
+        </div>
+      </div>
+    </div>
+    <div class="duties">
+        {% for order in orders %}
+            {% if order.is_paid == False  %}
+        <div class="duty" id="{{ order.id }}">
+            <p class="duty-id">#{{ order.id }}</p>
+            <ul class="duty-list">
+                {% for food in order.foods %}
+                    <li class="duty-list-item">{{ food.name }} <b>{{ food.quantity }}ш</b></li>
+                {% endfor %}
+            </ul>
+            <p class="duty-amount">Нийт {{ order.total }}₮</p>
+
+        </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+  <div class="tasks-modal">
+  </div>
+
+
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+        <p class="order-id">Захиалга #12</p>
+      <p class="modal-text">
+          <ul class="ordered-foods"></ul>
+      </p>
+        <hr class="solid">
+        <p class="modal-price"></p>
+
+        <div class="modal-button-group">
+          <button class="modal-button-save">Хадгалах</button>
+            <button class="modal-button-delete">Устгах</button>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="notification-top" style="display: none">
+    <p class="notification-text">Таны захиалга амжилттай хадгалагдлаа.</p>
+  </div>
+
+
+  </div>
+  <button class="xButton">❌</button>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="{% static 'app.js' %}" charset="utf-8"></script>
+</body>
+
+</html>
