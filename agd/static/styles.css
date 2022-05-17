@@ -421,3 +421,34 @@ box-shadow: 12px 10px 15px -8px rgba(0,0,0,0.54);
   from {opacity: 1;}
   to { opacity: 0;}
 }
+@media only screen
+  and (min-width: 760px)
+  and (max-width: 1200px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+    .menu {
+      margin: 30px 15px;
+    }
+    .food-pictures, .drink-pictures, .salad-pictures {
+      width: 320px;
+      padding:0;
+    }
+    .picture-and-text {
+      height: 100px;
+      width: 90px;
+      padding: 10px 15px;
+      margin: 3px;
+    }
+    .quantity-board {
+      width: 280px;
+    }
+    .sum-board {
+      width: 280px;
+    }
+    .sum-board-button {
+      margin-left: 0;
+    }
+    .duties {
+      margin: 40px 0 5px 5px;
+      width: 230px;
+    }
+}
