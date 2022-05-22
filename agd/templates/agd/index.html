@@ -101,9 +101,12 @@
     </div>
     <div class="duties">
         {% for order in orders %}
-            {% if order.is_paid == False  %}
+{#            {% if order.is_paid == False  %}#}
         <div class="duty" id="{{ order.id }}">
-            <p class="duty-id">#{{ order.id }}</p>
+            <div class="duty-header">
+                <p class="duty-id">#{{ order.id }}</p>
+                <div class="done">✔</div>
+            </div>
             <ul class="duty-list">
                 {% for food in order.foods %}
                     <li class="duty-list-item">{{ food.name }} <b>{{ food.quantity }}ш</b></li>
@@ -112,7 +115,7 @@
             <p class="duty-amount">Нийт {{ order.total }}₮</p>
 
         </div>
-            {% endif %}
+{#            {% endif %}#}
         {% endfor %}
     </div>
 

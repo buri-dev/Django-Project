@@ -4,8 +4,9 @@ from django.db import models
 # Create your models here.
 class Food(models.Model):
     name = models.CharField(max_length=200)
+    # food_category = models.CharField(max_length=200, default=[])
     price = models.IntegerField()
-    food_type = models.CharField(max_length=10, default=['drink', 'food', 'dessert'])
+    food_type = models.CharField(max_length=10, default=['drink', 'food', 'salad'])
 
     def __str__(self):
         return self.name

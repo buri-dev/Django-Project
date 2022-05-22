@@ -62,3 +62,7 @@ def take_order(request):
         ) for food in result
     ])
     return HttpResponse('Thank you for your order!')
+
+
+for ordered_food in OrderedFoods.objects.all():
+    print(ordered_food.food.name, ordered_food.quantity)

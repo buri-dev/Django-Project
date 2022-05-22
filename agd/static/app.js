@@ -46,6 +46,8 @@ saladButton.addEventListener("click", () => {
   saladPictures.style.visibility = "visible";
 })
 
+// document ready function
+
 let foodOrders = [];
 
 $('.picture-and-text').on('click', function () {
@@ -70,6 +72,25 @@ $('.picture-and-text').on('click', function () {
   }
   updateOrder();
 });
+//
+// $(document).ready(
+//     function(){
+//         const data = JSON.parse(localStorage.getItem('data'));
+//         foodOrders = data;
+//         data.forEach(food => {
+//             $('.calculator-table').append(`
+//                 <tr>
+//                   <td>${food.name}</td>
+//                   <td>${food.quantity}ш</td>
+//                   <td>${food.price}</td>
+//                   <td>${food.quantity * Number.parseInt(food.price)}₮</td>
+//                 </tr>
+//             `);
+//         });
+//         $('.sum-board-price').text(data.reduce((sum, food) => sum + food.quantity * Number.parseInt(food.price), 0) + '₮');
+//     }
+// )
+
 
 function updateOrder(){
  $('.calculator-table').find("tr:gt(0)").remove();
@@ -88,6 +109,7 @@ function updateOrder(){
 
 $('.cancel-button').on('click', function () {
   foodOrders = [];
+  // localStorage.setItem('data', JSON.stringify([]));
   updateOrder();
 });
 
@@ -114,12 +136,14 @@ $.ajaxSetup({
          }
      }
 });
-$('.submit-button').on('click', function(){
+
   const data = {
     foodOrders: foodOrders,
   };
+
+$('.submit-button').on('click', function(){
   $.ajax({
-    url: '/agd/order/',
+    url: '/order/',
     type: 'POST',
     data: JSON.stringify(data),
     contentType: 'application/json',
@@ -138,7 +162,7 @@ $('.duty').on('click', function(event){
     $('.modal').css('display', 'block');
     let orderId = $(this).attr('id');
     $.ajax({
-        url: '/agd/order/' + orderId + '/',
+        url: '/order/' + orderId + '/',
         type: 'GET',
         success: function (data) {
             $('.ordered-foods').find("li").remove();
@@ -170,7 +194,7 @@ $('.modal-button-save').on('click', function(){
   }, 2000);
     let id = $('.order-id').attr('id')
     $.ajax({
-        url: '/agd/update/' + id + '/',
+        url: '/update/' + id + '/',
         type: 'PUT',
         success: function (data) {
             window.location.reload();
@@ -178,7 +202,13 @@ $('.modal-button-save').on('click', function(){
     })
 })
 
+$('.done').on('click', function(event){
+    event.stopPropagation();
+    $(this).css('background-color') === 'rgba(0, 0, 0, 0)' ? $(this).css('background-color', 'green') : $(this).css('background-color', 'rgba(0, 0, 0, 0)');
+})
+
 $('.modal-button-delete').on('click', function(){
+    // localStorage.setItem('data', JSON.stringify(foodOrders));
     $('.modal').css('display', 'none');
   $('.notification-text').text('Амжилттай устгалаа!!');
   $('.notification-top').css('display', 'block')
@@ -188,7 +218,7 @@ $('.modal-button-delete').on('click', function(){
 
   let id = $('.order-id').attr('id')
   $.ajax({
-    url: '/agd/delete/' + id + '/',
+    url: '/delete/' + id + '/',
     type: 'DELETE',
     success: function (data) {
         window.location.reload();
